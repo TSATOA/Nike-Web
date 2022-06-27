@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.11",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.21.0"
+  },
+  "name": "nike-web",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "TSATOa",
+  "license": "ISC",
+  "description": "태곤이의 나만의 웹 제작"
+}
