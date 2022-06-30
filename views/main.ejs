@@ -41,8 +41,8 @@
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" id="sear" >
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="shoeView(document.getElementById('sear').value)">Search</button>
           </form>
         </div>
       </nav>
@@ -57,7 +57,7 @@
         <p class="lead">이 사이트는 나이키 신발 응모를 계속 놓치는 태곤이가 화가나서 만든 사이트입니다.</p>
         <p>NIKE 공식 온라인스토어에 올라오는 런칭 정보를 바탕으로 운영됩니다.<br>순수 웹프로그래밍 공부만을 위해 제작되었습니다.</p>
         <hr class="my-4">
-        <p>드로우 진행이 종료되었거나 판매 종료된 상품은 Sold Out으로 표시됩니다.</p>
+        <p>드로우 진행이 종료되었거나 판매 종료된 상품은 Sold Out으로 표시됩니다.<br>검색할 때는 대소문자, 띄어쓰기에 주의해주시기 바랍니다.</p>
       </div>
 
       <!-- card list -->
@@ -75,6 +75,24 @@
 
      </div>
 
+     <div class="modal" tabindex="-1" id="shoe-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">검색 결과</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Modal body text goes here.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
 
@@ -112,6 +130,42 @@
           }
         })
       })
+    </script>
+
+    <script>
+      function shoeView(sear){
+
+        $.ajax({
+          url:`/data/read`,
+          data:{},
+          type:"GET",
+          success:function(json){
+            console.log(json)
+            let sho = json.data
+            let num = []
+            let j=0
+            for(let i=0;i<sho.length;i++){
+              if(sho[i].shoeName.includes(sear)||sho[i].launchDate.includes(sear)||sho[i].Draw.includes(sear)){
+                num[j]=i;
+                j++;
+              }
+            }
+            $(".modal-body").html('')
+            if(j!=0){
+              for(let i = 0;i<j;i++){
+                $(".modal-body").append(`<img src="${sho[num[i]].shoeImg}" class="card-img-top" alt="...">
+                <p>${sho[num[i]].shoeName}</p> 
+                <p>${sho[num[i]].launchDate}</p> 
+                <p>${sho[num[i]].Draw}</p>`)
+              }
+            }else{
+              $(".modal-body").append(`<p>No Result!</p> `)
+            }
+          }
+        })
+
+        $('#shoe-modal').modal('show')
+      }
     </script>
 
 </body>
