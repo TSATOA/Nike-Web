@@ -3,6 +3,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
 const ejs = require("ejs")
+const db = require('./model/db')
 
 //views의 front파일을 전달해준다
 app.set('view engine', 'ejs');
@@ -13,5 +14,6 @@ const mainRouter = require("./router/mainRouter")
 app.use('/',mainRouter)
 
 app.listen(3000,function(req,res){
+    db.sequelize.sync({force:false})
     console.log("서버 실행중입니다.")
 })
